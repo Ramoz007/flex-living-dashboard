@@ -1,34 +1,42 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "allowJs": true,
     "jsx": "react-jsx",
+    "target": "esnext",
+    "module": "esnext",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./*"]
+      "@/api/*": ["./api/*"],
+      "@/app/*": ["./app/*"],
+      "@/components/*": ["./components/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/guards/*": ["./guards/*"],
+      "@/contexts/*": ["./contexts/*"],
+      "@/store/*": ["./store/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/utilities/*": ["./utilities/*"],
+      "@/views/*": ["./views/*"]
     }
   },
   "include": [
-    "next-env.d.ts",
+    "**/*.js",
     "**/*.ts",
+    "**/*.jsx",
     "**/*.tsx",
+    "**/*.mts",
+    "next-env.d.ts",
+    "postcss.config.mjs",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
