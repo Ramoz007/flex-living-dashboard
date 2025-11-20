@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { DashboardPeriod } from "@/utilities/types/enum";
 import { DashboardFilters } from "@/utilities/types/utilities";
 import { DASHBOARD_PERIOD_OPTIONS, DASHBOARD_RATING_OPTIONS } from "@/utilities/constants/general";
-// import { useDashboardFilters } from "@/hooks/dashboard/useDashboardFilters";
+import { useDashboardFilters } from "@/hooks/dashboard/useDashboardFilters";
 
 interface DashboardFiltersViewProps {
   onFiltersChange: (filters: DashboardFilters) => void;
@@ -27,7 +27,7 @@ export const DashboardFiltersView: React.FC<DashboardFiltersViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedChannel, setSelectedChannel] = useState<string>("");
 
-  // const { isLoading: isFilterLoading, channels, categories } = useDashboardFilters();
+  const { isLoading: isFilterLoading, channels, categories } = useDashboardFilters();
 
   const currentFilters: DashboardFilters = useMemo(
     () => ({
@@ -55,17 +55,17 @@ export const DashboardFiltersView: React.FC<DashboardFiltersViewProps> = ({
             <SelectValue placeholder="Select channel" />
           </SelectTrigger>
           <SelectContent>
-            {/* {!isFilterLoading &&
+            {!isFilterLoading &&
               channels &&
               channels.map((val) => (
                 <SelectItem key={val} value={val}>
                   {val}
                 </SelectItem>
-              ))} */}
+              ))}
           </SelectContent>
         </Select>
         <Select value={selectedRating} onValueChange={(value: string) => setSelectedRating(value)}>
-          <Label>Rating:</Label>
+          <Label>{"Rating (>)"}:</Label>
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Select rating" />
           </SelectTrigger>
@@ -86,13 +86,13 @@ export const DashboardFiltersView: React.FC<DashboardFiltersViewProps> = ({
             <SelectValue placeholder="Select categories" />
           </SelectTrigger>
           <SelectContent>
-            {/* {!isFilterLoading &&
+            {!isFilterLoading &&
               categories &&
               categories.map((val) => (
                 <SelectItem key={val} value={val}>
                   {val}
                 </SelectItem>
-              ))} */}
+              ))}
           </SelectContent>
         </Select>
         <Select

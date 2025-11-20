@@ -11,40 +11,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { NormalizedProperty } from "@/api/hostaway/reviews/types";
+import { NormalizedProperty, PropertyListingReview } from "@/api/hostaway/reviews/types";
 import { getIndexedDatabaseItem, setIndexedDatabaseItem } from "@/utilities/helpers/storage";
 import { IndexDatabaseStore, IndexDatabaseStoreKey } from "@/utilities/types/enum";
+import { DashboardFilters } from "@/utilities/types/utilities";
+import { filterReviews } from "@/utilities/helpers/filterReviews";
 
 interface ReviewTableProps {
   properties: NormalizedProperty[];
+  filters: DashboardFilters;
 }
 
-export const ReviewTable: FC<ReviewTableProps> = ({ properties }) => {
-  // Flatten reviews + attach property name
-  const allReviews = useMemo(() => {
-    return properties.flatMap((property) =>
-      (property.reviews || []).map((review) => ({
-        ...review,
-        listingName: property.listingName,
-      }))
-    );
-  }, [properties]);
-
+export const ReviewTable: FC<ReviewTableProps> = ({ properties, filters }) => {
   // Private state map: { [reviewId]: boolean }
   const [privateState, setPrivateState] = useState<Record<number, boolean>>({});
 
+  // Load private review switches
   useEffect(() => {
     const loadData = async () => {
       const data = await getIndexedDatabaseItem<Record<number, boolean>>(
         IndexDatabaseStore.FLEX_LIVING_DATA,
         IndexDatabaseStoreKey.PRIVATE_REVIEWS
       );
-
-      if (data) {
-        setPrivateState(data);
-      }
+      if (data) setPrivateState(data);
     };
-
     loadData();
   }, []);
 
@@ -65,9 +55,29 @@ export const ReviewTable: FC<ReviewTableProps> = ({ properties }) => {
     });
   };
 
+  // ---------------------------------------------------------
+  // 1) Flatten all reviews + safely attach listingName
+  // ---------------------------------------------------------
+  const enrichedReviews = useMemo(() => {
+    return properties.flatMap((property) =>
+      (property.reviews || []).map((review) => ({
+        ...review,
+        listingName: property.listingName,
+        channel: review.status,
+      }))
+    );
+  }, [properties]);
+
+  // ---------------------------------------------------------
+  // 3) Apply your centralized filters
+  // ---------------------------------------------------------
+  const filteredReviews = useMemo(() => {
+    return filterReviews(enrichedReviews, filters);
+  }, [enrichedReviews, filters]);
+
   return (
     <div className="w-full border rounded-md p-4">
-      <Label className="text-[18px] font-semibold">Review Table</Label>
+      <Label className="text-[18px] font-semibold">Reviews Table</Label>
       <div className="mt-4 max-h-[500px] overflow-y-auto border rounded-md">
         <Table>
           <TableHeader className="bg-gray-100">
@@ -80,16 +90,16 @@ export const ReviewTable: FC<ReviewTableProps> = ({ properties }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {allReviews.length === 0 ? (
+            {filteredReviews.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center text-sm text-gray-500">
                   No reviews found.
                 </TableCell>
               </TableRow>
             ) : (
-              allReviews.map((review) => (
+              filteredReviews.map((review) => (
                 <TableRow key={review.id}>
-                  <TableCell>{review.listingName}</TableCell>
+                  <TableCell>{(review as PropertyListingReview).listingName}</TableCell>
                   <TableCell className="max-w-[250px] truncate">{review.publicReview}</TableCell>
                   <TableCell>{review.status}</TableCell>
                   <TableCell>{new Date(review.submittedAt).toLocaleDateString("en-GB")}</TableCell>

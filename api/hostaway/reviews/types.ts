@@ -53,6 +53,15 @@ export interface PropertyListingReview {
   categoryRatings: ReviewCategory[] | null;
 }
 
+export interface PropertyListingReview {
+  listingName: string;
+  id: number;
+  status: string; // will be used for channel filtering
+  submittedAt: string;
+  publicReview: string | null;
+  categoryRatings: ReviewCategory[] | null;
+}
+
 export interface PropertyReview {
   id: number;
   status: string; // will be used for channel filtering

@@ -13,7 +13,7 @@ interface UseDashboardFilters {
 }
 
 export const useDashboardFilters = (): UseDashboardFilters => {
-  const reviewsSwrUrl = ApiEndpoint.REVIEWS;
+  const reviewsSwrUrl = ApiEndpoint.REVIEWS + "/dashboard-filters";
   const fetcher = (): Promise<NormalizedReviewsRepsonse> => getManyNormalizedReviewsFetcher();
   const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
 

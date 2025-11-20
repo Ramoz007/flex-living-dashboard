@@ -12,7 +12,7 @@ interface UseReviewsMany {
 }
 
 export const useReviewsMany = (): UseReviewsMany => {
-  const reviewsSwrUrl = ApiEndpoint.REVIEWS;
+  const reviewsSwrUrl = ApiEndpoint.REVIEWS + "/reviews";
   const fetcher = (): Promise<ReviewsRepsonse> => getManyReviewsFetcher();
   const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
   return {

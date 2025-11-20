@@ -12,7 +12,7 @@ interface UsePropertiesMany {
 }
 
 export const usePropertiesMany = (): UsePropertiesMany => {
-  const reviewsSwrUrl = ApiEndpoint.REVIEWS;
+  const reviewsSwrUrl = ApiEndpoint.REVIEWS + "/properties";
   const fetcher = (): Promise<NormalizedPropertiesRepsonse> => getPropertiesReviewsFetcher();
   const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
   return {

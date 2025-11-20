@@ -1,17 +1,25 @@
 import { NormalizedProperty } from "@/api/hostaway/reviews/types";
 import { Label } from "@/components/ui/label";
-import { FC } from "react";
+import { filterReviews } from "@/utilities/helpers/filterReviews";
+import { DashboardFilters } from "@/utilities/types/utilities";
+import { FC, useMemo } from "react";
 
 interface TopPropertyProps {
   properties: NormalizedProperty[];
+  filters?: DashboardFilters;
 }
 
-export const TopProperty: FC<TopPropertyProps> = ({ properties }) => {
+export const TopProperty: FC<TopPropertyProps> = ({ properties, filters }) => {
   // Helper to calculate average rating for a single property
   const getAverageForProperty = (property: NormalizedProperty): number => {
     const ratings: number[] = [];
 
-    property.reviews?.forEach((review) => {
+    // Apply filters if provided
+    const relevantReviews = filters
+      ? filterReviews(property.reviews ?? [], filters)
+      : property.reviews ?? [];
+
+    relevantReviews.forEach((review) => {
       review.categoryRatings?.forEach((cat) => {
         if (typeof cat.rating === "number") ratings.push(cat.rating);
       });
@@ -20,17 +28,21 @@ export const TopProperty: FC<TopPropertyProps> = ({ properties }) => {
     if (ratings.length === 0) return 0;
     return ratings.reduce((sum, r) => sum + r, 0) / ratings.length;
   };
-  // Find highest-rated property
-  let topProperty: NormalizedProperty | null = null;
-  let topRating = 0;
 
-  properties.forEach((property) => {
-    const avg = getAverageForProperty(property);
-    if (avg > topRating) {
-      topRating = avg;
-      topProperty = property;
-    }
-  });
+  const topProperty = useMemo(() => {
+    let top: NormalizedProperty | null = null;
+    let topRating = 0;
+
+    properties.forEach((property) => {
+      const avg = getAverageForProperty(property);
+      if (avg > topRating) {
+        topRating = avg;
+        top = property;
+      }
+    });
+
+    return top;
+  }, [properties, filters]);
   return (
     <div className="flex flex-col items-center border-1 rounded-md p-3 w-[250px] h-[180px]">
       <Label className="text-[16px]">Best-performing Property</Label>

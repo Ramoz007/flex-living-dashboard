@@ -21,12 +21,12 @@ export const DashboardView: FC = () => {
     <div className="px-3">
       <DashboardHeader />
       <DashboardFiltersView
-        onFiltersChange={() => {
-          setCurrentFilters;
+        onFiltersChange={(filters: DashboardFilters) => {
+          setCurrentFilters(filters);
         }}
       />
       <Separator className="my-4" />
-      <DashboardPanels />
+      <DashboardPanels filters={currentFilters} />
     </div>
   );
 };

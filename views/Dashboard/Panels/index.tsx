@@ -9,8 +9,13 @@ import { AverageRating } from "@/views/Dashboard/Panels/AverageRating";
 import { PropertyPerformance } from "@/views/Dashboard/Panels/PropertyPerformance";
 import { usePropertiesMany } from "@/hooks/property/useMany";
 import { SectionLoader } from "@/components/loaders/SectionLoader";
+import { DashboardFilters } from "@/utilities/types/utilities";
 
-export const DashboardPanels: FC = () => {
+interface DashboardPanelsProps {
+  filters: DashboardFilters;
+}
+
+export const DashboardPanels: FC<DashboardPanelsProps> = ({ filters }) => {
   const { isLoading, properties } = usePropertiesMany();
   if (isLoading) {
     return <SectionLoader minHeight="200px" />;
@@ -19,13 +24,13 @@ export const DashboardPanels: FC = () => {
     <div>
       <div className="flex w-full flex-wrap flex-row gap-3 mb-4">
         <div className="flex flex-row flex-wrap justify-around w-full rounded-md gap-2">
-          <PropertyCount properties={properties || []} />
-          <ReviewCount properties={properties || []} />
-          <AverageRating properties={properties || []} />
-          <TopProperty properties={properties || []} />
+          <PropertyCount properties={properties || []} filters={filters} />
+          <ReviewCount properties={properties || []} filters={filters} />
+          <AverageRating properties={properties || []} filters={filters} />
+          <TopProperty properties={properties || []} filters={filters} />
         </div>
-        <PropertyPerformance properties={properties || []} />
-        <ReviewTable properties={properties || []} />
+        <PropertyPerformance properties={properties || []} filters={filters} />
+        <ReviewTable properties={properties || []} filters={filters} />
       </div>
     </div>
   );
