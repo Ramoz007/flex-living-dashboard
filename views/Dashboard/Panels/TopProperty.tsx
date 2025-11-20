@@ -1,8 +1,9 @@
-import { NormalizedProperty } from "@/api/hostaway/reviews/types";
-import { Label } from "@/components/ui/label";
-import { filterReviews } from "@/utilities/helpers/filterReviews";
-import { DashboardFilters } from "@/utilities/types/utilities";
 import { FC, useMemo } from "react";
+
+import { Label } from "@/components/ui/label";
+import { DashboardFilters } from "@/utilities/types/utilities";
+import { filterReviews } from "@/utilities/helpers/filterReviews";
+import { NormalizedProperty } from "@/api/hostaway/reviews/types";
 
 interface TopPropertyProps {
   properties: NormalizedProperty[];
@@ -14,7 +15,6 @@ export const TopProperty: FC<TopPropertyProps> = ({ properties, filters }) => {
   const getAverageForProperty = (property: NormalizedProperty): number => {
     const ratings: number[] = [];
 
-    // Apply filters if provided
     const relevantReviews = filters
       ? filterReviews(property.reviews ?? [], filters)
       : property.reviews ?? [];

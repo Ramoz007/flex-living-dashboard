@@ -1,8 +1,9 @@
-import { NormalizedProperty } from "@/api/hostaway/reviews/types";
-import { Label } from "@/components/ui/label";
-import { filterReviews } from "@/utilities/helpers/filterReviews";
-import { DashboardFilters } from "@/utilities/types/utilities";
 import { FC, useMemo } from "react";
+
+import { Label } from "@/components/ui/label";
+import { DashboardFilters } from "@/utilities/types/utilities";
+import { filterReviews } from "@/utilities/helpers/filterReviews";
+import { NormalizedProperty } from "@/api/hostaway/reviews/types";
 
 interface PropertyCountProps {
   properties: NormalizedProperty[];

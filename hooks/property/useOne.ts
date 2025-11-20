@@ -18,7 +18,7 @@ interface UsePropertyOneProps {
 export const usePropertiesOne = ({ id }: UsePropertyOneProps): UsePropertyOne => {
   const reviewsSwrUrl = ApiEndpoint.REVIEWS + `/${id}`;
   const fetcher = (): Promise<NormalizedPropertyRepsonse> => getPropertyReviewsFetcher(id);
-  const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
+  const { data, isLoading } = useSWR(reviewsSwrUrl, fetcher);
   return {
     isLoading,
     property: data?.data || null,

@@ -75,8 +75,6 @@ export interface NormalizedProperty {
   reviews: PropertyReview[] | null;
 }
 
-// more to come...
-
 // API RESPONSES
 
 export type ReviewsRepsonse = DataServiceResponse<Review[] | null> | null;

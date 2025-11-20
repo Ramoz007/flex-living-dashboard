@@ -14,7 +14,7 @@ interface UsePropertiesMany {
 export const usePropertiesMany = (): UsePropertiesMany => {
   const reviewsSwrUrl = ApiEndpoint.REVIEWS + "/properties";
   const fetcher = (): Promise<NormalizedPropertiesRepsonse> => getPropertiesReviewsFetcher();
-  const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
+  const { data, isLoading } = useSWR(reviewsSwrUrl, fetcher);
   return {
     isLoading,
     properties: data?.data || null,

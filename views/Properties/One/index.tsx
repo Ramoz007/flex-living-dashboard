@@ -1,19 +1,18 @@
 "use client";
 
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-import { PropertyHeader } from "./Header";
 import { NotFound } from "@/views/NotFound";
-import { IndexDatabaseStore, IndexDatabaseStoreKey, LocalPath } from "@/utilities/types/enum";
-import { usePropertiesOne } from "@/hooks/property/useOne";
-import LoadingCircularSection from "@/components/loaders/LoadingSections";
-import { Separator } from "@/components/ui/separator";
-import { PropertyGallery } from "./Gallery";
-import { Label } from "@/components/ui/label";
-import { Item, ItemGroup, ItemSeparator } from "@/components/ui/item";
 import { Badge } from "@/components/ui/badge";
-import { BadgeCheckIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { usePropertiesOne } from "@/hooks/property/useOne";
+import { PropertyHeader } from "@/views/Properties/One/Header";
+import { PropertyGallery } from "@/views/Properties/One/Gallery";
 import { getIndexedDatabaseItem } from "@/utilities/helpers/storage";
+import { Item, ItemGroup, ItemSeparator } from "@/components/ui/item";
+import LoadingCircularSection from "@/components/loaders/LoadingSections";
+import { IndexDatabaseStore, IndexDatabaseStoreKey, LocalPath } from "@/utilities/types/enum";
 
 interface PropertyViewProps {
   propertyId: string;
@@ -23,7 +22,6 @@ export const PropertyView: FC<PropertyViewProps> = ({ propertyId }) => {
   const decodedPropertyId = decodeURIComponent(propertyId);
   const { property, isLoading } = usePropertiesOne({ id: decodedPropertyId });
 
-  // LOCAL STATE: private review IDs stored in IndexedDB
   const [isPrivateMap, setIsPrivateMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -59,7 +57,6 @@ export const PropertyView: FC<PropertyViewProps> = ({ propertyId }) => {
     );
   }
 
-  // FILTER → only reviews where map[id] !== true
   const publicReviews = (property.reviews ?? []).filter((r) => !isPrivateMap[String(r.id)]);
 
   return (
@@ -82,7 +79,6 @@ export const PropertyView: FC<PropertyViewProps> = ({ propertyId }) => {
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
             mollit anim id est laborum.
           </div>
-
           <div className="flex flex-col items-center justify-start w-full lg:w-2/5 border-1 rounded-md">
             <div className="flex w-full flex-col gap-5">
               <ItemGroup>
@@ -106,7 +102,6 @@ export const PropertyView: FC<PropertyViewProps> = ({ propertyId }) => {
                     {index !== arr.length - 1 && <ItemSeparator />}
                   </div>
                 ))}
-
                 {publicReviews.length === 0 && (
                   <Label className="p-4 text-center text-sm text-gray-500">
                     No public reviews available.

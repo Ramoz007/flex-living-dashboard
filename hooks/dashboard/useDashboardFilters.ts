@@ -1,8 +1,7 @@
 import useSWR from "swr";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import { ApiEndpoint } from "@/api/hostaway/types";
-import { getErrorMessage } from "@/utilities/helpers/getErrorMessage";
 import { getManyNormalizedReviewsFetcher } from "@/utilities/fetchers/reviews";
 import { NormalizedReview, NormalizedReviewsRepsonse } from "@/api/hostaway/reviews/types";
 
@@ -15,7 +14,7 @@ interface UseDashboardFilters {
 export const useDashboardFilters = (): UseDashboardFilters => {
   const reviewsSwrUrl = ApiEndpoint.REVIEWS + "/dashboard-filters";
   const fetcher = (): Promise<NormalizedReviewsRepsonse> => getManyNormalizedReviewsFetcher();
-  const { data, isLoading, error } = useSWR(reviewsSwrUrl, fetcher);
+  const { data, isLoading } = useSWR(reviewsSwrUrl, fetcher);
 
   const { channels, categories } = useMemo(() => {
     if (!data || !data.data) {
@@ -34,15 +33,6 @@ export const useDashboardFilters = (): UseDashboardFilters => {
       categories: categories,
     };
   }, [data]);
-
-  useEffect(() => {
-    if (error) {
-      console.log({
-        message: getErrorMessage(error),
-        type: "error",
-      });
-    }
-  }, [error]);
 
   return {
     isLoading,

@@ -10,21 +10,21 @@ import {
   normalizeReviewData,
   parseReviewData,
 } from "@/api/hostaway/reviews/utilities";
+import { mockReviewsData } from "../mockData/mockData";
+import { isRequestSuccess } from "@/api/hostaway/utilities";
 import { HostawayApiService } from "@/api/hostaway/service";
 import { ApiEndpoint, DataServiceResponse } from "@/api/hostaway/types";
-import { isRequestSuccess } from "@/api/hostaway/utilities";
-import { mockReviewsData } from "../mockData/mockData";
 
-export interface GetReviewsProps {
+interface GetReviewsProps {
   isMocked?: boolean;
 }
 
-export interface GetOnePropertyReviewsProps {
+interface GetOnePropertyReviewsProps {
   isMocked?: boolean;
   propertyId: string;
 }
 
-export interface GetManyPropertyReviewsProps {
+interface GetManyPropertyReviewsProps {
   isMocked?: boolean;
 }
 

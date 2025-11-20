@@ -1,15 +1,15 @@
 "use client";
 
 import { FC } from "react";
+import { usePropertiesMany } from "@/hooks/property/useMany";
+import { DashboardFilters } from "@/utilities/types/utilities";
 import { ReviewTable } from "@/views/Dashboard/Panels/ReviewTable";
 import { ReviewCount } from "@/views/Dashboard/Panels/ReviewCount";
 import { TopProperty } from "@/views/Dashboard/Panels/TopProperty";
+import { SectionLoader } from "@/components/loaders/SectionLoader";
 import { PropertyCount } from "@/views/Dashboard/Panels/PropertyCount";
 import { AverageRating } from "@/views/Dashboard/Panels/AverageRating";
 import { PropertyPerformance } from "@/views/Dashboard/Panels/PropertyPerformance";
-import { usePropertiesMany } from "@/hooks/property/useMany";
-import { SectionLoader } from "@/components/loaders/SectionLoader";
-import { DashboardFilters } from "@/utilities/types/utilities";
 
 interface DashboardPanelsProps {
   filters: DashboardFilters;

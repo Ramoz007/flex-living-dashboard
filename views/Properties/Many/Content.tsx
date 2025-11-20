@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 
-import { PropertyDataGrid } from "@/views/Properties/Many/Table";
 import { usePropertiesMany } from "@/hooks/property/useMany";
+import { PropertyDataGrid } from "@/views/Properties/Many/Table";
 
 export const PropertiesPageContent: FC = () => {
   const { isLoading, properties } = usePropertiesMany();

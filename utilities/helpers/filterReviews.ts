@@ -1,5 +1,5 @@
-import { PropertyListingReview, PropertyReview } from "@/api/hostaway/reviews/types";
 import { DashboardFilters } from "@/utilities/types/utilities";
+import { PropertyListingReview, PropertyReview } from "@/api/hostaway/reviews/types";
 
 export const filterReviews = (
   reviews: PropertyListingReview[] | PropertyReview[],

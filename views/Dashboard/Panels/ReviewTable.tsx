@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useEffect, useMemo, useState } from "react";
-import { Label } from "@/components/ui/label";
+
 import {
   Table,
   TableBody,
@@ -10,12 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { NormalizedProperty, PropertyListingReview } from "@/api/hostaway/reviews/types";
-import { getIndexedDatabaseItem, setIndexedDatabaseItem } from "@/utilities/helpers/storage";
-import { IndexDatabaseStore, IndexDatabaseStoreKey } from "@/utilities/types/enum";
 import { DashboardFilters } from "@/utilities/types/utilities";
 import { filterReviews } from "@/utilities/helpers/filterReviews";
+import { IndexDatabaseStore, IndexDatabaseStoreKey } from "@/utilities/types/enum";
+import { NormalizedProperty, PropertyListingReview } from "@/api/hostaway/reviews/types";
+import { getIndexedDatabaseItem, setIndexedDatabaseItem } from "@/utilities/helpers/storage";
 
 interface ReviewTableProps {
   properties: NormalizedProperty[];
@@ -23,10 +24,8 @@ interface ReviewTableProps {
 }
 
 export const ReviewTable: FC<ReviewTableProps> = ({ properties, filters }) => {
-  // Private state map: { [reviewId]: boolean }
   const [privateState, setPrivateState] = useState<Record<number, boolean>>({});
 
-  // Load private review switches
   useEffect(() => {
     const loadData = async () => {
       const data = await getIndexedDatabaseItem<Record<number, boolean>>(
@@ -38,7 +37,6 @@ export const ReviewTable: FC<ReviewTableProps> = ({ properties, filters }) => {
     loadData();
   }, []);
 
-  // Save to IndexedDB whenever privateState changes
   const persistState = async (updatedState: Record<number, boolean>) => {
     await setIndexedDatabaseItem(
       IndexDatabaseStore.FLEX_LIVING_DATA,
