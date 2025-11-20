@@ -12,8 +12,10 @@ export interface DashboardFilters {
 
 export interface Variables {
   hostawayApiKey?: string;
+  indexDatabaseName: string;
   hostawayAccountId?: string;
   hostawayApiBaseUrl?: string;
+  indexDatabaseVersion: number;
 }
 
 export interface MenuItem {

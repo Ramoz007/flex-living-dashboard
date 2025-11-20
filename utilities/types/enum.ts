@@ -24,3 +24,11 @@ export enum DashboardRating {
   NINE = "9",
   TEN = "10",
 }
+
+export enum IndexDatabaseStore {
+  FLEX_LIVING_DATA = "flex-living-data",
+}
+
+export enum IndexDatabaseStoreKey {
+  PRIVATE_REVIEWS = "private_reviews",
+}

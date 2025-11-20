@@ -43,7 +43,7 @@ export const parseReviewData = (data: any): Review[] | null => {
  * @param review - A Review object to normalize.
  * @returns {NormalizedReview} The normalized review object.
  */
-export function normalizeReview(review: Review): NormalizedReview {
+export const normalizeReview = (review: Review): NormalizedReview => {
   const categories = review.reviewCategory?.map((c) => c.category) ?? [];
   const ratings =
     review.reviewCategory?.map((c) => c.rating).filter((r): r is number => typeof r === "number") ??
@@ -63,7 +63,7 @@ export function normalizeReview(review: Review): NormalizedReview {
     listingName: review.listingName,
     averageRating,
   };
-}
+};
 
 /**
  * Normalizes an array of Review objects into NormalizedReview objects.
@@ -71,9 +71,9 @@ export function normalizeReview(review: Review): NormalizedReview {
  * @param reviews - Array of Review objects.
  * @returns {NormalizedReview[]} Array of normalized reviews.
  */
-export function normalizeReviewData(reviews: Review[]): NormalizedReview[] {
+export const normalizeReviewData = (reviews: Review[]): NormalizedReview[] => {
   return reviews.map(normalizeReview);
-}
+};
 
 /**
  * Normalizes all reviews belonging to a single property.
@@ -89,10 +89,15 @@ export function normalizeReviewData(reviews: Review[]): NormalizedReview[] {
 export const normalizePropertyReviews = (
   propertyId: string,
   reviews: Review[]
-): NormalizedProperty => {
+): NormalizedProperty | null => {
   const propertyReviews = reviews.filter((review) => review.listingName === propertyId);
+  if (propertyReviews.length === 0) {
+    return null;
+  }
   const formattedReviews: PropertyReview[] = propertyReviews.map((review) => ({
     id: review.id,
+    status: review.status,
+    submittedAt: review.submittedAt,
     publicReview: review.publicReview,
     categoryRatings: review.reviewCategory,
   }));
@@ -125,6 +130,8 @@ export const normalizePropertiesReviews = (reviews: Review[]): NormalizedPropert
     ([listingName, listingReviews]) => {
       const formattedReviews: PropertyReview[] = listingReviews.map((review) => ({
         id: review.id,
+        status: review.status,
+        submittedAt: review.submittedAt,
         publicReview: review.publicReview ?? null,
         categoryRatings: review.reviewCategory,
       }));

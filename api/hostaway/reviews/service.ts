@@ -12,7 +12,8 @@ import {
 } from "@/api/hostaway/reviews/utilities";
 import { HostawayApiService } from "@/api/hostaway/service";
 import { ApiEndpoint, DataServiceResponse } from "@/api/hostaway/types";
-import { isRequestSuccess, parseMockData } from "@/api/hostaway/utilities";
+import { isRequestSuccess } from "@/api/hostaway/utilities";
+import { mockReviewsData } from "../mockData/mockData";
 
 export interface GetReviewsProps {
   isMocked?: boolean;
@@ -59,8 +60,7 @@ export class ReviewsService extends HostawayApiService {
         data: null,
       };
     }
-    const parsedData = parseMockData("./api/hostaway/mockData/mockReviews.json");
-    const parsedReviews = parseReviewData(parsedData);
+    const parsedReviews = parseReviewData(mockReviewsData.result);
     return {
       success: true,
       message: `Reviews fetched successfully.`,
@@ -103,10 +103,7 @@ export class ReviewsService extends HostawayApiService {
         data: null,
       };
     }
-    const parsedData: GetReviewsResponseApi = parseMockData(
-      "./api/hostaway/mockData/mockReviews.json"
-    );
-    const normalizedReviews = normalizeReviewData(parsedData.result);
+    const normalizedReviews = normalizeReviewData(mockReviewsData.result);
     return {
       success: true,
       message: `Reviews fetched successfully.`,
@@ -126,7 +123,7 @@ export class ReviewsService extends HostawayApiService {
       const response = await this.fetch(endpoint, { method: "GET" });
       if (isRequestSuccess(response.status)) {
         const data: GetReviewsResponseApi = await response.json();
-        if (Array.isArray(data.result)) {
+        if (Array.isArray(data.result) && data.result.length > 0) {
           const propertyReviews = normalizePropertyReviews(propertyId, data.result);
           return {
             success: true,
@@ -140,16 +137,21 @@ export class ReviewsService extends HostawayApiService {
         message: `Failed to fetch property reviews.`,
         data: null,
       };
+    } else {
+      const propertyOneReviews = normalizePropertyReviews(propertyId, mockReviewsData.result);
+      if (propertyOneReviews) {
+        return {
+          success: true,
+          message: `Property reviews fetched successfully.`,
+          data: propertyOneReviews,
+        };
+      }
+      return {
+        success: false,
+        message: `Failed to fetch property reviews.`,
+        data: null,
+      };
     }
-    const parsedData: GetReviewsResponseApi = parseMockData(
-      "./api/hostaway/mockData/mockReviews.json"
-    );
-    const propertyReviews = normalizePropertyReviews(propertyId, parsedData.result);
-    return {
-      success: true,
-      message: `Property reviews fetched successfully.`,
-      data: propertyReviews,
-    };
   }
 
   // Property Reviews (Many)
@@ -178,10 +180,7 @@ export class ReviewsService extends HostawayApiService {
         data: null,
       };
     }
-    const parsedData: GetReviewsResponseApi = parseMockData(
-      "./api/hostaway/mockData/mockReviews.json"
-    );
-    const propertyReviews = normalizePropertiesReviews(parsedData.result);
+    const propertyReviews = normalizePropertiesReviews(mockReviewsData.result);
     return {
       success: true,
       message: `Properties reviews fetched successfully.`,

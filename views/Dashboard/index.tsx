@@ -5,11 +5,12 @@ import { FC, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { DashboardPeriod } from "@/utilities/types/enum";
 import { DashboardHeader } from "@/views/Dashboard/Header";
+import { DashboardPanels } from "@/views/Dashboard/Panels";
 import { DashboardFilters } from "@/utilities/types/utilities";
 import { DashboardFiltersView } from "@/views/Dashboard/Filters";
 
 export const DashboardView: FC = () => {
-  const [_, setCurrentFilters] = useState<DashboardFilters>({
+  const [currentFilters, setCurrentFilters] = useState<DashboardFilters>({
     period: DashboardPeriod.YEAR,
     rating: null,
     category: null,
@@ -25,6 +26,7 @@ export const DashboardView: FC = () => {
         }}
       />
       <Separator className="my-4" />
+      <DashboardPanels />
     </div>
   );
 };

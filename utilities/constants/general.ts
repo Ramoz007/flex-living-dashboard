@@ -31,6 +31,8 @@ export const DASHBOARD_RATING_OPTIONS: SelectType[] = [
 ];
 
 export const VARIABLES: Variables = {
+  indexDatabaseVersion: 1,
+  indexDatabaseName: "flex-living-dashboard",
   hostawayApiKey: process.env.NEXT_PUBLIC_HOSTAWAY_BASE_URL,
   hostawayAccountId: process.env.NEXT_PUBLIC_HOSTAWAY_BASE_URL,
   hostawayApiBaseUrl: process.env.NEXT_PUBLIC_HOSTAWAY_BASE_URL,
